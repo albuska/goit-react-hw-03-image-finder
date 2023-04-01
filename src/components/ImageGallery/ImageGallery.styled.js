@@ -1,5 +1,12 @@
 import styled from "styled-components";
 
+export const Container = styled.div`
+width: 1170px;
+padding-left: 15px;
+padding-right: 15px; 
+margin: 0 auto;
+`
+
 export const ImageGalleryList = styled.ul`
   display: grid;
   max-width: calc(100vw - 48px);

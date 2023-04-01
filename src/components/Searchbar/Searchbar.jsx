@@ -24,7 +24,6 @@ inputValue: "",
         }
     this.props.onSubmit(this.state.inputValue); 
     this.setState({inputValue: ""}); 
-    
       }
 
   handleInputChange = (event) => {
