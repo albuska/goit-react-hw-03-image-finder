@@ -3,7 +3,7 @@ import {
   ImageGalleryItemLi,
   ImageGalleryItemImage,
 } from './ImageGalleryItem.styled';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Modal } from 'components/Modal/Modal';
 
 export class ImageGalleryItem extends Component {
@@ -30,10 +30,10 @@ export class ImageGalleryItem extends Component {
   }
 };
 
-ImageGalleryItem.propTypes = {
-  item: PropTypes.shape({
-    webformatURL: PropTypes.string.isRequired,
-    largeImageURL: PropTypes.string.isRequired,
-    user: PropTypes.string.isRequired,
-  }).isRequired,
-};
+// ImageGalleryItem.propTypes = {
+//   item: PropTypes.object({
+//     webformatURL: PropTypes.string.isRequired,
+//     largeImageURL: PropTypes.string.isRequired,
+//     user: PropTypes.string.isRequired,
+//   }).isRequired,
+// };

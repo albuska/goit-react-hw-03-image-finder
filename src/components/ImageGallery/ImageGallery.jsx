@@ -1,25 +1,23 @@
-import {ImageGalleryList, Container} from './ImageGallery.styled';
+import { ImageGalleryList, Container } from './ImageGallery.styled';
 import { Component } from 'react';
-import {ImageGalleryItem} from '../ImageGalleryItem/ImageGalleryItem'; 
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
 import { toast } from 'react-toastify';
 
-
 export class ImageGallery extends Component {
-  state = { 
-    images: [], 
+  state = {
+    images: [],
     page: 1,
     perPage: 12,
     value: null,
     error: null,
-    status: 'idle',  
-    totalPage: 0, 
+    status: 'idle',
+    totalPage: 0,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    
-    if (prevProps.inputValueName !== this.props.inputValueName) {
+    if (prevProps.inputValueName !== this.props.inputValueName || prevState.page !== this.state.page) {
       // this.setState({page: 1, images: []}); 
       this.setState({ status: 'pending'});
       fetch(
@@ -39,33 +37,37 @@ export class ImageGallery extends Component {
           if(value.hits.length === 0) {
             toast.error(`Oops...No such name found ${this.props.inputValueName}`)  
           }
-          this.setState({ value, status: 'resolved' })
+          this.setState({ images: [...value.hits], status: 'resolved' })
+          console.log("🚀 ~ ImageGallery ~ componentDidUpdate ~ value:", ...value.hits)
           const pages = Math.ceil(value.totalHits / this.state.perPage)
           this.setState({totalPage: pages})
-          console.log(pages)
-          // this.setState(({images: value.hits}))
-          this.setState({images: [...value.hits]})
+      
+          // this.setState({images: [...value.hits]})
+    
+          // this.setState(prevState => {
+          //   return {
+          //     images: [...prevState.images, ...value.hits],
+          //   };
+          // });
         })
         .catch(error => this.setState({ error, status: 'rejected' }));       
     }
-    console.log(this.state.images)
-    console.log(this.state.value)
-
   }
 
   handleReadMore = () => {
-    const {value} = this.state; 
-
-        this.setState(prevState => {
-        return {
-        images: [...prevState.images, ...value.hits],
+    // const { value } = this.state;
+    console.log(this.state.images)
+    this.setState(prevState => {
+      return {
+        images: [...prevState.images],
         page: prevState.page + 1,
-        }
-      }); 
-      }; 
+      };
+    });
+  };
 
   render() {
-const showButton = this.state.images.length >= 12; 
+    
+    const showButton = this.state.images.length >= 12;
 
     if (this.state.status === 'idle') {
       return;
@@ -83,24 +85,21 @@ const showButton = this.state.images.length >= 12;
       return <h1>{this.state.error.message}</h1>;
     }
     if (this.state.status === 'resolved') {
-
-console.log(this.state.images)
+      console.log(this.state.images);
       const { images, page, totalPage } = this.state;
       return (
         <Container>
           <ImageGalleryList>
             {images.map(image => (
-              <ImageGalleryItem
-                key={image.id}
-                item={image}
-              />
+              <ImageGalleryItem key={image.id} item={image} />
             ))}
           </ImageGalleryList>
 
-          {showButton && <Button onClick={this.handleReadMore} hidden={page === totalPage}/>}
+          {showButton && (
+            <Button onClick={this.handleReadMore} hidden={page === totalPage} />
+          )}
         </Container>
       );
     }
   }
-};
-
+}
