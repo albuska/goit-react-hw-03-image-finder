@@ -37,7 +37,7 @@ export class ImageGallery extends Component {
           if(value.hits.length === 0) {
             toast.error(`Oops...No such name found ${this.props.inputValueName}`)  
           }
-          this.setState({ images: [...value.hits], status: 'resolved' })
+          this.setState({ images: [...prevState.images, ...value.hits], status: 'resolved' })
           console.log("🚀 ~ ImageGallery ~ componentDidUpdate ~ value:", ...value.hits)
           const pages = Math.ceil(value.totalHits / this.state.perPage)
           this.setState({totalPage: pages})
@@ -59,7 +59,7 @@ export class ImageGallery extends Component {
     console.log(this.state.images)
     this.setState(prevState => {
       return {
-        images: [...prevState.images],
+        // images: [...prevState.images],
         page: prevState.page + 1,
       };
     });
