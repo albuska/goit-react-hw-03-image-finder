@@ -35,5 +35,5 @@ ImageGalleryItem.propTypes = {
     webformatURL: PropTypes.string.isRequired,
     largeImageURL: PropTypes.string.isRequired,
     user: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
 };

@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
-export const ButtonReadMore = styled.button` 
+export const ButtonReadMore = styled.button`
   padding: 8px 16px;
   border-radius: 2px;
-  background-color: #3f51b5;
+  background-image: linear-gradient(to right top, #dde9f7, #b0c0c6, #8b9797, #6a6f6c, #494a48);
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   display: block;
   margin: 0 auto;
+  margin-top: 15px;
   align-items: center;
   color: #fff;
   border: 0;
@@ -24,6 +25,6 @@ export const ButtonReadMore = styled.button`
 
   :hover,
   :focus {
-    background-color: #303f9f;
+    background: #696969;
   }
 `;
