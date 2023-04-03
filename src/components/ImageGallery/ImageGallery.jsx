@@ -29,9 +29,9 @@ export class ImageGallery extends Component {
           if (response.ok) {
             return response.json();
           }
-          return Promise.reject(
-            new Error(`Oops...No such name found ${this.props.inputValueName}`)
-          );
+          // return Promise.reject(
+          //   new Error(`Oops...No such name found ${this.props.inputValueName}`)
+          // );
         })
         .then(data => {
           if (data.hits.length === 0) {
