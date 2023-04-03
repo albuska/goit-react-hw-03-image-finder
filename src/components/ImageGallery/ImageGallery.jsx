@@ -10,17 +10,15 @@ export class ImageGallery extends Component {
     images: [],
     page: 1,
     perPage: 12,
-    value: null,
     error: null,
-    status: 'idle',
+    loading: false, 
     totalPage: 0,
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    // this.setState({page: 1, images: []}); 
+  componentDidUpdate(prevProps, prevState) { 
     if (prevProps.inputValueName !== this.props.inputValueName || prevState.page !== this.state.page) {
-     
-      this.setState({ status: 'pending'});
+      this.setState({loading: true})
+      if (prevProps !== this.props) this.setState({ images: [], page: 1 });
       fetch(
         `https://pixabay.com/api/?q=${this.props.inputValueName}&page=${this.state.page}&key=33675530-14a54e49ac2d12a2b0a037dca&image_type=photo&orientation=horizontal&per_page=${this.state.perPage}`
       )
@@ -34,35 +32,26 @@ export class ImageGallery extends Component {
             )
           );
         })
-        .then(value => {
-          if(value.hits.length === 0) {
+        .then(data => {
+          if(data.hits.length === 0) {
             toast.error(`Oops...No such name found ${this.props.inputValueName}`)  
           }
-           const pages = Math.ceil(value.totalHits / this.state.perPage)
-          // this.setState({ images: [...prevState.images, ...value.hits], status: 'resolved' })
-          // this.setState({ images: [...value.hits], totalPage: pages, status: 'resolved' })
-          console.log("🚀 ~ ImageGallery ~ componentDidUpdate ~ value:", ...value.hits)
-      
-          // this.setState({images: [...value.hits]})
-    
-          this.setState(prevState => {
-            return {
-              images: [...prevState.images, ...value.hits],
-          totalPage: pages, 
-          status: 'resolved',
-            };
-          });
+           const pages = Math.ceil(data.totalHits / this.state.perPage)
+           this.setState(({ images, totalPage, loading }) => ({
+            images: [...images, ...data.hits],
+            totalPage: pages,
+            loading: true, 
+          }));
+        
         })
-        .catch(error => this.setState({ error, status: 'rejected' }));       
+        .catch(error => this.setState({ error })) 
+        .finally(() => this.setState({ loading: false }));      
     }
   }
 
   handleReadMore = () => {
-    // const { value } = this.state;
-    console.log(this.state.images)
     this.setState(prevState => {
       return {
-        images: [...prevState.images],
         page: prevState.page + 1,
       };
     });
@@ -71,38 +60,23 @@ export class ImageGallery extends Component {
   render() {
     
     const showButton = this.state.images.length >= 12;
+    const { images, page, totalPage, loading, error } = this.state;
 
-    if (this.state.status === 'idle') {
-      return;
-    }
-
-    if (this.state.status === 'pending') {
-      return (
-        <div>
-          <Loader />
-        </div>
-      );
-    }
-
-    if (this.state.status === 'rejected') {
-      return <h1>{this.state.error.message}</h1>;
-    }
-    if (this.state.status === 'resolved') {
-      console.log(this.state.images);
-      const { images, page, totalPage } = this.state;
       return (
         <Container>
-          <ImageGalleryList>
+        {error && <h1>{error.message}</h1>}
+          {loading &&  <div><Loader/></div>}
+         <ImageGalleryList>
             {images.map(image => (
               <ImageGalleryItem key={image.id} item={image} />
             ))}
           </ImageGalleryList>
 
-          {showButton && (
-            <Button onClick={this.handleReadMore} hidden={page === totalPage} />
+          {showButton && page < totalPage && (
+            <Button onClick={this.handleReadMore} page={page} totalPage={totalPage}/> 
           )}
         </Container>
       );
     }
   }
-}
+
