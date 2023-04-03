@@ -14,6 +14,7 @@ export class App extends Component {
     this.setState({ inputValue });
   };
 
+
   render() {
     const { inputValue } = this.state;
     return (

@@ -43,7 +43,7 @@ this.setState({inputValue: event.currentTarget.value.toLowerCase()})
             name="inputValue"
             type="text"
             autocomplete="off"
-            // autofocus
+            autoFocus
             placeholder="Search images and photos"
             value={inputValue}
             onChange={this.handleInputChange}
