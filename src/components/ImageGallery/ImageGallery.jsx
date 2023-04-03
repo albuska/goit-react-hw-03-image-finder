@@ -17,8 +17,9 @@ export class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    // this.setState({page: 1, images: []}); 
     if (prevProps.inputValueName !== this.props.inputValueName || prevState.page !== this.state.page) {
-      // this.setState({page: 1, images: []}); 
+     
       this.setState({ status: 'pending'});
       fetch(
         `https://pixabay.com/api/?q=${this.props.inputValueName}&page=${this.state.page}&key=33675530-14a54e49ac2d12a2b0a037dca&image_type=photo&orientation=horizontal&per_page=${this.state.perPage}`
@@ -37,18 +38,20 @@ export class ImageGallery extends Component {
           if(value.hits.length === 0) {
             toast.error(`Oops...No such name found ${this.props.inputValueName}`)  
           }
-          this.setState({ images: [...prevState.images, ...value.hits], status: 'resolved' })
+           const pages = Math.ceil(value.totalHits / this.state.perPage)
+          // this.setState({ images: [...prevState.images, ...value.hits], status: 'resolved' })
+          // this.setState({ images: [...value.hits], totalPage: pages, status: 'resolved' })
           console.log("🚀 ~ ImageGallery ~ componentDidUpdate ~ value:", ...value.hits)
-          const pages = Math.ceil(value.totalHits / this.state.perPage)
-          this.setState({totalPage: pages})
       
           // this.setState({images: [...value.hits]})
     
-          // this.setState(prevState => {
-          //   return {
-          //     images: [...prevState.images, ...value.hits],
-          //   };
-          // });
+          this.setState(prevState => {
+            return {
+              images: [...prevState.images, ...value.hits],
+          totalPage: pages, 
+          status: 'resolved',
+            };
+          });
         })
         .catch(error => this.setState({ error, status: 'rejected' }));       
     }
@@ -59,7 +62,7 @@ export class ImageGallery extends Component {
     console.log(this.state.images)
     this.setState(prevState => {
       return {
-        // images: [...prevState.images],
+        images: [...prevState.images],
         page: prevState.page + 1,
       };
     });
