@@ -1,7 +1,7 @@
 import { ButtonReadMore } from './Button.styled';
 import PropTypes from 'prop-types';
 
-export const Button = ({ onClick, page, totalPage }) => {
+export const Button = ({ onClick }) => {
   return (
     <ButtonReadMore type="button" onClick={onClick}>
       Load more
@@ -12,5 +12,3 @@ export const Button = ({ onClick, page, totalPage }) => {
 Button.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
-
-// style={{display: "none"}}

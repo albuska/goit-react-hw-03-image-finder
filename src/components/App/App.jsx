@@ -19,9 +19,7 @@ export class App extends Component {
     return (
       <AppContainer>
         <SearchBar onSubmit={this.handleSearchFormSubmit} />
-        <ImageGallery
-          inputValueName={inputValue}
-        />
+        <ImageGallery inputValueName={inputValue} />
         <GlobalStyle />
         <ToastContainer autoClose={3000} />
       </AppContainer>

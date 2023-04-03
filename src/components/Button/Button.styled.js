@@ -3,7 +3,14 @@ import styled from 'styled-components';
 export const ButtonReadMore = styled.button`
   padding: 8px 16px;
   border-radius: 2px;
-  background-image: linear-gradient(to right top, #dde9f7, #b0c0c6, #8b9797, #6a6f6c, #494a48);
+  background-image: linear-gradient(
+    to right top,
+    #dde9f7,
+    #b0c0c6,
+    #8b9797,
+    #6a6f6c,
+    #494a48
+  );
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
   display: block;
