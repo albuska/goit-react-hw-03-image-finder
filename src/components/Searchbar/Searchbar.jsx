@@ -7,31 +7,31 @@ import {
   SearchFormButton,
   SearchFormInput,
 } from './Searchbar.styled';
-import {ImSearch} from 'react-icons/im'; 
-// import PropTypes from 'prop-types';
+import { ImSearch } from 'react-icons/im';
 
 export class SearchBar extends Component {
+  state = {
+    inputValue: '',
+  };
 
-    state = {
-inputValue: "",  
+  handleSubmit = event => {
+    event.preventDefault();
+    if (this.state.inputValue.trim() === '') {
+      toast.error('Search images and photos');
+
+      return;
     }
+    this.props.onSubmit(this.state.inputValue);
+    this.setState({ inputValue: '' });
+  };
 
-    handleSubmit = (event) => {
-        event.preventDefault();
-        if(this.state.inputValue.trim() === "") {
-            toast.error("Search images and photos")  
-            return; 
-        }
-    this.props.onSubmit(this.state.inputValue); 
-    this.setState({inputValue: ""}); 
-      }
-
-  handleInputChange = (event) => {
-this.setState({inputValue: event.currentTarget.value.toLowerCase()})
-  }
+  handleInputChange = event => {
+    this.setState({ inputValue: event.currentTarget.value.toLowerCase() });
+  };
 
   render() {
-    const {inputValue} = this.state; 
+    const { inputValue } = this.state;
+
     return (
       <SearchbarContainer>
         <SearchForm onSubmit={this.handleSubmit}>
@@ -52,4 +52,4 @@ this.setState({inputValue: event.currentTarget.value.toLowerCase()})
       </SearchbarContainer>
     );
   }
-};
+}

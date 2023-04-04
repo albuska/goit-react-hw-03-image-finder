@@ -50,7 +50,7 @@ export const SearchFormButton = styled.button`
 
 export const SearchFormButtonLabel = styled.span`
   svg {
-    position: absolute;
+  position: absolute;
   width: 1px;
   height: 1px;
   padding: 0;
